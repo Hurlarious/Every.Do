@@ -39,7 +39,7 @@
                     <navigationItem key="navigationItem" title="Every.Do" id="dZd-7f-2ZK">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dFF-P9-sK7">
                             <connections>
-                                <segue destination="vuE-0g-j1U" kind="presentation" id="tHv-IO-oya"/>
+                                <segue destination="vuE-0g-j1U" kind="presentation" identifier="SegueToAddItemViewController" id="tHv-IO-oya"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

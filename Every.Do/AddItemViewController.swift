@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+protocol AddItemViewControllerDelegate: class {
+    
+    func addItemViewControllerDidCancel(controller: AddItemViewController)
+    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem)
+}
+
 
 class AddItemViewController: UITableViewController, UITextFieldDelegate {
     
@@ -17,7 +23,7 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
-    
+    weak var delegate: AddItemViewControllerDelegate?
     
     // MARK: Lifecycle
     
@@ -33,6 +39,7 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
         
         return nil
     }
+    
     
     // MARK: - Functions
     
@@ -50,16 +57,18 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func donePressed() {
         
-        print("contents of text field: \(textField.text!)")
+        let item = ChecklistItem()
+        item.text = textField.text!
+        item.checked = false
         
-        dismissViewControllerAnimated(true, completion: nil)
+        delegate?.addItemViewController(self, didFinishAddingItem: item)
     }
     
     @IBAction func cancelPressed() {
         
-        dismissViewControllerAnimated(true, completion: nil)
+        delegate?.addItemViewControllerDidCancel(self)
     }
     
-    
-    
+
+
 }

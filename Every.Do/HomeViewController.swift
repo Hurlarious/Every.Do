@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UITableViewController {
+class HomeViewController: UITableViewController, AddItemViewControllerDelegate {
     
     // MARK: - Variables/Properties/Outlets
     
@@ -88,6 +88,23 @@ class HomeViewController: UITableViewController {
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
     }
     
+    // MARK: - Delegate Functions
+    
+    func addItemViewControllerDidCancel(controller: AddItemViewController) {
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
+        
+        let newRowIndex = items.count
+        items.append(item)
+        
+        let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     
     // MARK: - Functions
     
@@ -106,27 +123,17 @@ class HomeViewController: UITableViewController {
         }
     }
     
-    // MARK: - Actions
-    
-    @IBAction func addItem(sender: UIBarButtonItem) {
-        
-        let newRowIndex = items.count
-        let item = ChecklistItem()
-        item.text = "oh hell yah"
-        item.checked = false
-        items.append(item)
-        
-        let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
-        let indexPaths = [indexPath]
-        tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-        
-    }
-    
-    
+
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+        if segue.identifier == "SegueToAddItemViewController" {
+            
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let controller = navigationController.topViewController as! AddItemViewController
+            controller.delegate = self
+        }
     }
     
     
