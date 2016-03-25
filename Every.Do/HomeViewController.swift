@@ -41,7 +41,11 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
         row4item.checked = true
         items.append(row4item)
         
-        super.init(coder: aDecoder) }
+        super.init(coder: aDecoder)
+        
+        print("Documents folder is \(documentsDirectory())")
+        print("Data file path is \(dataFilePath())")
+    }
     
     // MARK: - Lifecycle
     
@@ -79,6 +83,7 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        saveChecklistItems()
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -86,6 +91,8 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
         items.removeAtIndex(indexPath.row)
         let indexPaths = [indexPath]
         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        
+        saveChecklistItems()
     }
     
     // MARK: - Delegate Functions
@@ -104,6 +111,8 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
         let indexPaths = [indexPath]
         tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
         dismissViewControllerAnimated(true, completion: nil)
+        
+        saveChecklistItems()
     }
     
     func itemDetailViewController(controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem) {
@@ -116,6 +125,7 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
         }
         
         dismissViewControllerAnimated(true, completion: nil)
+        saveChecklistItems()
     }
     
     // MARK: - Functions
@@ -137,6 +147,26 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
         }
     }
     
+    func documentsDirectory() -> String {
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        return paths[0]
+    }
+    
+    func dataFilePath() -> String {
+        
+        let directory = documentsDirectory() as NSString
+        return directory.stringByAppendingPathComponent("EveryDo.plist")
+    }
+    
+    func saveChecklistItems() {
+        
+        let data = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
+        archiver.encodeObject(items, forKey: "ChecklistItems")
+        archiver.finishEncoding()
+        data.writeToFile(dataFilePath(), atomically: true)
+    }
 
     // MARK: - Navigation
     
