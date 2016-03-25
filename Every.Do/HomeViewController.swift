@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UITableViewController, AddItemViewControllerDelegate {
+class HomeViewController: UITableViewController, ItemDetailViewControllerDelegate {
     
     // MARK: - Variables/Properties/Outlets
     
@@ -90,12 +90,12 @@ class HomeViewController: UITableViewController, AddItemViewControllerDelegate {
     
     // MARK: - Delegate Functions
     
-    func addItemViewControllerDidCancel(controller: AddItemViewController) {
+    func itemDetailViewControllerDidCancel(controller: ItemDetailViewController) {
         
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func addItemViewController(controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
+    func itemDetailViewController(controller: ItemDetailViewController, didFinishAddingItem item: ChecklistItem) {
         
         let newRowIndex = items.count
         items.append(item)
@@ -103,6 +103,18 @@ class HomeViewController: UITableViewController, AddItemViewControllerDelegate {
         let indexPath = NSIndexPath(forRow: newRowIndex, inSection: 0)
         let indexPaths = [indexPath]
         tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func itemDetailViewController(controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem) {
+        
+        if let index = items.indexOf(item) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+                configureTextForCell(cell, withChecklistItem: item)
+            }
+        }
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -116,10 +128,12 @@ class HomeViewController: UITableViewController, AddItemViewControllerDelegate {
     
     func configureCheckmarkForCell(cell: UITableViewCell, withChecklistItem item: ChecklistItem) {
         
+        let label = cell.viewWithTag(1001) as! UILabel
+        
         if item.checked {
-            cell.accessoryType = .Checkmark
+             label.text = "☑️"
         } else {
-            cell.accessoryType = .None
+            label.text = ""
         }
     }
     
@@ -128,11 +142,22 @@ class HomeViewController: UITableViewController, AddItemViewControllerDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue.identifier == "SegueToAddItemViewController" {
+        if segue.identifier == "AddItem" {
             
             let navigationController = segue.destinationViewController as! UINavigationController
-            let controller = navigationController.topViewController as! AddItemViewController
+            let controller = navigationController.topViewController as! ItemDetailViewController
             controller.delegate = self
+            
+        } else if segue.identifier == "EditItem" {
+            
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let controller = navigationController.topViewController as! ItemDetailViewController
+            controller.delegate = self
+            
+            if let indexPath = tableView.indexPathForCell(sender as! UITableViewCell) {
+                
+                controller.itemToEdit = items[indexPath.row]
+            }
         }
     }
     
