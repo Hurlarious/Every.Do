@@ -12,36 +12,13 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
     
     // MARK: - Variables/Properties/Outlets
     
-    var items = [ChecklistItem]()
+    var items: [ChecklistItem]
     
     required init?(coder aDecoder: NSCoder) {
         
-        let row0item = ChecklistItem()
-        row0item.text = "Walk the dog"
-        row0item.checked = false
-        items.append(row0item)
-        
-        let row1item = ChecklistItem()
-        row1item.text = "Brush my teeth"
-        row1item.checked = true
-        items.append(row1item)
-        
-        let row2item = ChecklistItem()
-        row2item.text = "Learn iOS development"
-        row2item.checked = true
-        items.append(row2item)
-        
-        let row3item = ChecklistItem()
-        row3item.text = "Soccer practice"
-        row3item.checked = false
-        items.append(row3item)
-        
-        let row4item = ChecklistItem()
-        row4item.text = "Eat ice cream"
-        row4item.checked = true
-        items.append(row4item)
-        
+        items = [ChecklistItem]()
         super.init(coder: aDecoder)
+        loadChecklistItems()
         
         print("Documents folder is \(documentsDirectory())")
         print("Data file path is \(dataFilePath())")
@@ -55,7 +32,7 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
     }
     
     
-    // MARK: - Table View Functions
+    // MARK: - Table view data source
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
@@ -166,6 +143,20 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
         archiver.encodeObject(items, forKey: "ChecklistItems")
         archiver.finishEncoding()
         data.writeToFile(dataFilePath(), atomically: true)
+    }
+    
+    func loadChecklistItems() {
+        
+        let path = dataFilePath()
+        if NSFileManager.defaultManager().fileExistsAtPath(path) {
+            
+            if let data = NSData(contentsOfFile: path) {
+                
+                let unarchiver = NSKeyedUnarchiver(forReadingWithData: data)
+                items = unarchiver.decodeObjectForKey("ChecklistItems") as! [ChecklistItem]
+                unarchiver.finishDecoding()
+            }
+        }
     }
 
     // MARK: - Navigation

@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
+
+
+// MARK: - Delegate Protocols
+
 protocol ItemDetailViewControllerDelegate: class {
-    
+ 
     func itemDetailViewControllerDidCancel(controller: ItemDetailViewController)
     func itemDetailViewController(controller: ItemDetailViewController, didFinishAddingItem item: ChecklistItem)
     func itemDetailViewController(controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem)
@@ -27,7 +31,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     weak var delegate: ItemDetailViewControllerDelegate?
     var itemToEdit: ChecklistItem?
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +49,12 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
-    // MARK: - Table View Functions
+    // MARK: - Table view data source
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         
         return nil
     }
-    
     
     // MARK: - Functions
     

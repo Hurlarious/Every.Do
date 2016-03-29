@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
-        <!--Every.Do-->
+        <!--(Name Of List)-->
         <scene sceneID="dHb-3F-g3X">
             <objects>
                 <tableViewController id="T86-0d-104" customClass="HomeViewController" customModule="Every_Do" customModuleProvider="target" sceneMemberID="viewController">
@@ -45,7 +45,7 @@
                             <outlet property="delegate" destination="T86-0d-104" id="0Sv-DW-gV0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Every.Do" id="dZd-7f-2ZK">
+                    <navigationItem key="navigationItem" title="(Name Of List)" id="dZd-7f-2ZK">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dFF-P9-sK7">
                             <connections>
                                 <segue destination="vuE-0g-j1U" kind="presentation" identifier="AddItem" id="tHv-IO-oya"/>
@@ -116,6 +116,28 @@
             </objects>
             <point key="canvasLocation" x="2987" y="391"/>
         </scene>
+        <!--Every.Do-->
+        <scene sceneID="Tl7-A0-yjg">
+            <objects>
+                <tableViewController id="5l6-zV-KJO" customClass="AllListsViewController" customModule="Every_Do" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="QVe-sn-Lx5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="5l6-zV-KJO" id="CyB-ca-ocf"/>
+                            <outlet property="delegate" destination="5l6-zV-KJO" id="Bc3-EQ-2TK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Every.Do" id="mAw-CR-t6U"/>
+                    <connections>
+                        <segue destination="T86-0d-104" kind="show" identifier="ShowChecklist" id="pmP-b4-rOZ"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WdG-Ov-erD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="765" y="391"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="LBr-Nv-V4P">
             <objects>
@@ -127,12 +149,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="T86-0d-104" kind="relationship" relationship="rootViewController" id="CfD-To-xoT"/>
+                        <segue destination="5l6-zV-KJO" kind="relationship" relationship="rootViewController" id="zWJ-0E-Hi1"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6b6-VO-XF4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="687" y="391"/>
+            <point key="canvasLocation" x="5" y="391"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xrs-rY-GuE">
