@@ -119,7 +119,7 @@
         <!--Navigation Controller-->
         <scene sceneID="6JS-4y-EZp">
             <objects>
-                <navigationController id="qeU-jF-tym" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ListDetailNavigationController" id="qeU-jF-tym" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5IM-hB-eI0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
