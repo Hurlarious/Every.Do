@@ -13,6 +13,7 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
     // MARK: - Variables/Properties/Outlets
     
     var items: [ChecklistItem]
+    var checklist: Checklist!
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -28,6 +29,7 @@ class HomeViewController: UITableViewController, ItemDetailViewControllerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = checklist.name
         
     }
     

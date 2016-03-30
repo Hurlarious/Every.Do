@@ -11,13 +11,10 @@ import UIKit
 class Checklist: NSObject {
     
     var name = ""
-    var lists: [Checklist]
-    
     
     init(name: String) {
         self.name = name
         super.init()
     }
-    
 
 }
