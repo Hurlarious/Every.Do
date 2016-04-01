@@ -12,8 +12,19 @@ class DataModel {
     
     var lists = [Checklist]()
     
+    var indexOfSelectedList: Int {
+        get {
+            return NSUserDefaults.standardUserDefaults().integerForKey("ChecklistIndex")
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: "ChecklistIndex")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
+    
     init() {
         loadChecklists()
+        registerDefaults()
     }
     
     
@@ -54,4 +65,13 @@ class DataModel {
             }
         }
     }
+    
+    func registerDefaults() {
+        
+        let dictionary = [ "ChecklistIndex": -1,
+                           "FirstTime": true ]
+        
+        NSUserDefaults.standardUserDefaults().registerDefaults(dictionary)
+    }
+
 }
