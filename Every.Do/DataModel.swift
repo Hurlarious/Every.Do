@@ -25,6 +25,7 @@ class DataModel {
     init() {
         loadChecklists()
         registerDefaults()
+        handleFirstTime()
     }
     
     
@@ -66,6 +67,23 @@ class DataModel {
         }
     }
     
+    func handleFirstTime() {
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let firstTime = userDefaults.boolForKey("FirstTime")
+        
+        if firstTime {
+            
+            let checklist = Checklist(name: "List")
+            lists.append(checklist)
+            indexOfSelectedList = 0
+            userDefaults.setBool(false, forKey: "FirstTime")
+            userDefaults.synchronize()
+        }
+    }
+    
+    
+    
     func registerDefaults() {
         
         let dictionary = [ "ChecklistIndex": -1,
@@ -73,5 +91,6 @@ class DataModel {
         
         NSUserDefaults.standardUserDefaults().registerDefaults(dictionary)
     }
+    
 
 }
