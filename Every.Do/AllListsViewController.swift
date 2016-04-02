@@ -18,6 +18,8 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(dataModel.dataFilePath())
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,6 +65,8 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         } else {
             cell.detailTextLabel!.text = "\(count) Remaining"
         }
+        
+        cell.imageView!.image = UIImage(named: checklist.iconName )
         
         return cell
     }
