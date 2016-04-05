@@ -46,7 +46,7 @@ class IconPickerViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if let delegate = delegate {
             let iconName = icons[indexPath.row]
