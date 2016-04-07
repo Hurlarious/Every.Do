@@ -28,9 +28,20 @@ class DataModel {
         handleFirstTime()
     }
     
+    // MARK: - Class Functions
+    
+    class func nextChecklistItemID() -> Int {
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let itemID = userDefaults.integerForKey("ChecklistItemID")
+        userDefaults.setInteger(itemID + 1, forKey: "ChecklistItemID")
+        userDefaults.synchronize()
+        return itemID
+    }
     
     
     // MARK: - Functions
+    
     
     func documentsDirectory() -> String {
         
@@ -92,7 +103,8 @@ class DataModel {
     func registerDefaults() {
         
         let dictionary = [ "ChecklistIndex": -1,
-                           "FirstTime": true ]
+                           "FirstTime": true,
+                           "ChecklistItemID": 0]
         
         NSUserDefaults.standardUserDefaults().registerDefaults(dictionary)
     }

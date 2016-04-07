@@ -27,9 +27,12 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var shouldRemindSwitch: UISwitch!
+    @IBOutlet weak var dueDateLabel: UILabel!
     
     weak var delegate: ItemDetailViewControllerDelegate?
     var itemToEdit: ChecklistItem?
+    var dueDate = NSDate()
     
     // MARK: - Lifecycle
     
@@ -40,7 +43,11 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             title = "Edit Item"
             textField.text = item.text
             doneButton.enabled = true
+            shouldRemindSwitch.on = item.shouldRemind
+            dueDate = item.dueDate
         }
+        
+        updateDueDateLabel()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -67,6 +74,13 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         return true
     }
     
+    func updateDueDateLabel() {
+        
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .MediumStyle
+        formatter.timeStyle = .ShortStyle
+        dueDateLabel.text = formatter.stringFromDate(dueDate)
+    }
     
     // MARK: - Actions
     
@@ -75,6 +89,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         if let item = itemToEdit {
             
             item.text = textField.text!
+            item.shouldRemind = shouldRemindSwitch.on
+            item.dueDate = dueDate
             delegate?.itemDetailViewController(self, didFinishEditingItem: item)
             
         } else {
@@ -82,6 +98,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             let item = ChecklistItem()
             item.text = textField.text!
             item.checked = false
+            item.shouldRemind = shouldRemindSwitch.on
+            item.dueDate = dueDate
             delegate?.itemDetailViewController(self, didFinishAddingItem: item)
         }
     }
