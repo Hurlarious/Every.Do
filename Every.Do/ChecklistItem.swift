@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ChecklistItem: NSObject, NSCoding {
     
@@ -45,5 +46,46 @@ class ChecklistItem: NSObject, NSCoding {
         
         itemID = DataModel.nextChecklistItemID()
         super.init()
+    }
+    
+    func notificationForThisItem() -> UILocalNotification? {
+        
+        let allNotifications = UIApplication.sharedApplication().scheduledLocalNotifications!
+        for notification in allNotifications {
+            if let number = notification.userInfo?["ItemID"] as? Int where number == itemID {
+                return notification
+            }
+        }
+        return nil
+    }
+    
+    func scheduleNotification() {
+        
+        let existingNotification = notificationForThisItem()
+        if let notification = existingNotification {
+            print("found existing notification \(notification)")
+            UIApplication.sharedApplication().cancelLocalNotification(notification)
+        }
+        
+        if shouldRemind && dueDate.compare(NSDate()) != .OrderedAscending {
+            let localNotification = UILocalNotification()
+            localNotification.fireDate = dueDate
+            localNotification.timeZone = NSTimeZone.defaultTimeZone()
+            localNotification.alertBody = text
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.userInfo = ["ItemID": itemID]
+            
+            UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+            
+            print("scheduled localNotification \(localNotification) for itemID \(itemID)")
+        }
+    }
+    
+    deinit {
+        
+        if let notification = notificationForThisItem() {
+            print("removing existing notifiction \(notification)")
+            UIApplication.sharedApplication().cancelLocalNotification(notification)
+        }
     }
 }

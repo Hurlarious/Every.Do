@@ -18,6 +18,9 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // data path for reference only
+        
         print(dataModel.dataFilePath())
     }
     
